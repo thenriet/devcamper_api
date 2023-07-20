@@ -45,7 +45,11 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
 
   res
     .status(201)
-    .json({ success: true, msg: 'Created new bootcamp' });
+    .json({
+      success: true,
+      msg: 'Created new bootcamp',
+      data: bootcamp,
+    });
 });
 
 // @desc    Update bootcamp
