@@ -38,3 +38,18 @@ exports.protect = asyncHandler(async (req, res, next) => {
     );
   }
 });
+
+// Grant access to specific roles
+exports.authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ErrorResponse(
+          `User role ${req.user.role} is unauthorized to commit this action`,
+          403
+        )
+      );
+    }
+    next();
+  };
+};

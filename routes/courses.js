@@ -12,14 +12,17 @@ const router = express.Router({ mergeParams: true });
 // mergeparams allow the reroute from the bootcamp router and getting the params (bootcampId)
 
 // Include other resources router
-const { protect } = require('../middlewares/auth');
+const { protect, authorize } = require('../middlewares/auth');
 
 // Create a route with express
-router.route('/').get(getCourses).post(protect, addCourse);
+router
+  .route('/')
+  .get(getCourses)
+  .post(protect, authorize('publisher', 'admin'), addCourse);
 router
   .route('/:id')
   .get(getCourse)
-  .put(protect, updateCourse)
-  .delete(protect, deleteCourse);
+  .put(protect, authorize('publisher', 'admin'), updateCourse)
+  .delete(protect, authorize('publisher', 'admin'), deleteCourse);
 
 module.exports = router;
